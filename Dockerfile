@@ -1,19 +1,6 @@
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
-
-RUN mkdir -p /root/.m2 && cat > /root/.m2/settings.xml <<'EOF'
-<settings>
-  <mirrors>
-    <mirror>
-      <id>aliyun</id>
-      <mirrorOf>central</mirrorOf>
-      <name>Aliyun Maven Mirror</name>
-      <url>https://maven.aliyun.com/repository/public</url>
-    </mirror>
-  </mirrors>
-</settings>
-EOF
-
+COPY maven-settings.xml /root/.m2/settings.xml
 COPY pom.xml .
 RUN mvn dependency:go-offline -q
 COPY src ./src
